@@ -1,10 +1,4 @@
-import express  from 'express'
-var app = express()
+require('babel-core/register');
+['.css', '.less', '.sass', '.ttf', '.woff', '.woff2'].forEach((ext) => require.extensions[ext] = () => {})
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
-
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
-})
+require('./src/server.js')
