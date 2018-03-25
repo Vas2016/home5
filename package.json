@@ -27,6 +27,7 @@
     "express": "^4.16.2",
     "material-ui": "^1.0.0-beta.35",
     "material-ui-icons": "^1.0.0-beta.35",
+    "mqtt": "^2.16.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "socket.io": "^2.0.4",
