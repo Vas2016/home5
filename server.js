@@ -6,13 +6,25 @@ var express = require('express');
 var app = express();  
 var server = require('http').createServer(app);  
 var io = require('socket.io')(server);
+var g = require('./g.js')
 
 console.log(__dirname)
 
 io.on('connection', function (socket) {
   // socket.emit('news', { hello: 'world' });
   socket.on('data', function (data) {
-    console.log(data);
+    data = JSON.parse(data)
+    switch (data.mesType) {
+      case 'getValue':
+        socket.emit(data.ip, g.deviceList[data.ip].value())
+        break;
+      case 'setValue':
+        g.deviceList[data.ip].setValue(data)
+        //socket.emit(data.ip, g.deviceList[data.ip])
+        break;
+      default:
+        break;
+    }
   });
 });
 // const io = require('socket.io')(app, {

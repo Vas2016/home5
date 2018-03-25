@@ -1,4 +1,4 @@
-var global = require('../global.js')
+var g = require('../g.js')
 var Device = require('./Device.js')
 
 class Olen extends Device {
@@ -6,14 +6,14 @@ class Olen extends Device {
         super()
         this.ip = _ip
         console.log(this.ip)
-        global.client.subscribe("/dev/" + this.ip + "/value")
+        g.client.subscribe("/dev/" + this.ip + "/value")
         var t = this;
         function fun(params) {
             t.valueHandle(params)
         }
-        global.netEvent.on("/dev/" + this.ip + "/value", fun)
+        g.netEvent.on("/dev/" + this.ip + "/value", fun)
 
-        // global.netEvent.on("/dev/" + ip + "/value", value)
+        // g.netEvent.on("/dev/" + ip + "/value", value)
     }
     valueHandle(msg) {
         msg = JSON.parse(msg)
@@ -27,7 +27,7 @@ class Olen extends Device {
         return { temp:this.temp, humid:this.humid, light:this.light, pochva:this.pochva }
     }
     polive(){
-        global.client.publish("/dev/" + this.ip + "/value", '{"polive" : true}')
+        g.client.publish("/dev/" + this.ip + "/value", '{"polive" : true}')
     }
 }
 

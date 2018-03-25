@@ -1,4 +1,4 @@
-var global = require('../global.js')
+var g = require('../g.js')
 var Device = require('./Device.js')
 
 class Metio extends Device {
@@ -6,14 +6,17 @@ class Metio extends Device {
         super()
         this.ip = _ip
         console.log(this.ip)
-        global.client.subscribe("/dev/" + this.ip + "/value")
-        var t = this;
+        g.client.subscribe("/dev/" + this.ip + "/value")
+        var t = this
         function fun(params) {
             t.valueHandle(params)
         }
-        global.netEvent.on("/dev/" + this.ip + "/value", fun)
-
-        // global.netEvent.on("/dev/" + ip + "/value", value)
+        function fun2(params) {
+            t.webHandle(params)
+        }
+        g.netEvent.on("/dev/" + this.ip + "/value", fun)
+        g.webEvent.on("/web/" + this.ip, fun2)
+        // g.netEvent.on("/dev/" + ip + "/value", value)
     }
     valueHandle(msg) {
         msg = JSON.parse(msg)
@@ -21,10 +24,15 @@ class Metio extends Device {
         this.humid = msg["humid"]
         console.log("[DEVICE]", this)
     }
-    get value (){    
+    webHandle(){
+
+    }
+    value (){    
         return { temp:this.temp, humid:this.humid }
     }
-    
+    setValue (){    
+        return { temp:this.temp, humid:this.humid }
+    }
 }
 
 module.exports.Metio = Metio
