@@ -16,6 +16,13 @@
             "value": [
                 "press"
             ]
+        },
+        {
+            "ip": "192.168.0.43",
+            "name": "olen",
+            "value": [
+                "pochva"
+            ]
         }
     ],
     "interval": 480

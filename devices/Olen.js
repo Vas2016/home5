@@ -23,7 +23,7 @@ class Olen extends Device {
         this.pochva = msg["pochva"]
         console.log("[DEVICE]", this)
     }
-    get value (){    
+    value (){    
         return { temp:this.temp, humid:this.humid, light:this.light, pochva:this.pochva }
     }
     polive(){
