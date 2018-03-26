@@ -9,6 +9,13 @@
                 "temp",
                 "humid"
             ]
+        },
+        {
+            "ip": "192.168.0.61",
+            "name": "monitor",
+            "value": [
+                "press"
+            ]
         }
     ],
     "interval": 480
