@@ -3,3 +3,4 @@ require('babel-core/register');
 
 require('./server.js')
 require('./home5.js')
+require('./narodmon.js')

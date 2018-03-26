@@ -24,9 +24,9 @@ g.client.on('message', function (topic, message) {
   g.netEvent.emit(topic, message)
 
 })
-var Metio = require('./devices/Metio').Metio;
-var Olen = require('./devices/Olen').Olen;
-
+var Metio = require('./devices/Metio.js').Metio;
+var Olen = require('./devices/Olen.js').Olen;
+var Monitor = require('./devices/Monitor.js').Monitor;
 
 g.netEvent.on('/dev/search/answer', function (mes) {
   mes = JSON.parse(mes)
@@ -43,6 +43,10 @@ g.netEvent.on('/dev/search/answer', function (mes) {
       break;
     case "olen":
       g.deviceList[mes["ip"]] = new Olen(mes["ip"])
+      // client.subscribe('/dev/search/answer')
+      break;
+    case "monitor":
+      g.deviceList[mes["ip"]] = new Monitor(mes["ip"])
       // client.subscribe('/dev/search/answer')
       break;
   

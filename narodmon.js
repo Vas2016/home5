@@ -15,11 +15,13 @@ function sendData() {
             config = JSON.parse(data)
             var qwerty = false
             var sd = '#' + config["mac"] + '#' + config["name"] + '\n'
-            config["devices"].forEach(el => {
+            for (let i = 0; i < config["devices"].length; i++) {
+                const el = config["devices"][i];
                 if (g.deviceList[el.ip] != null) {
                     qwerty = true
                     var v = g.deviceList[el.ip].value()
-                    el.forEach(fut => {
+                    for (let j = 0; j < el["value"].length; j++) {
+                        const fut = el["value"][j];
                         // sd.append('')
                         sd += '#'
                         sd += el.name
@@ -28,14 +30,15 @@ function sendData() {
                         sd += '#'
                         sd += v[fut]
                         sd += '\n'
-                    })
+                    }
+
                 }
-            });
+            }
             sd += '##'
             if (qwerty == true) {
                 console.log('[narodmon] ', sd)
                 var client = new net.Socket()
-                client.connect(1337, 'narodmon.ru', function () {
+                client.connect(8283, 'narodmon.ru', function () {
                     console.log('[narodmon] Connected')
                     client.write(sd)
                 });
@@ -50,6 +53,9 @@ function sendData() {
         }
     })
 }
+setTimeout(() => {
+    console.log('started')
 
-sednData()
-setInterval(sendData(), 480 * 1000)
+    sendData()
+    setInterval(sendData, 480 * 1000)
+}, 40000)
