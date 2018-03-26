@@ -1,7 +1,7 @@
-var global = require('./global.js');
+var g = require('./g.js');
 
 var mqtt = require('mqtt')
-global.client = mqtt.connect('mqtt://192.168.0.31')
+g.client = mqtt.connect('mqtt://192.168.0.31')
 
 /*
   Поиск - /dev/search/req
@@ -10,25 +10,25 @@ global.client = mqtt.connect('mqtt://192.168.0.31')
   Значение -  /dev/<ip>/value
 */
 
-global.client.on('connect', function () {
-  global.client.subscribe('/dev/search/answer')
-  global.client.publish('/dev/search/req', '{"ip":"192.168.0.31", "version":"5"}')
+g.client.on('connect', function () {
+  g.client.subscribe('/dev/search/answer')
+  g.client.publish('/dev/search/req', '{"ip":"192.168.0.31", "version":"5"}')
 })
 
-global.client.on('message', function (topic, message) {
+g.client.on('message', function (topic, message) {
   // message is Buffer
   // console.log()
   message = message.toString()
   console.log("[mqtt]", "topic", topic)
   console.log("[mqtt]", "mes", message)
-  global.netEvent.emit(topic, message)
+  g.netEvent.emit(topic, message)
 
 })
 var Metio = require('./devices/Metio').Metio;
 var Olen = require('./devices/Olen').Olen;
 
 
-global.netEvent.on('/dev/search/answer', function (mes) {
+g.netEvent.on('/dev/search/answer', function (mes) {
   mes = JSON.parse(mes)
   console.log("[home5][answer]", 
    mes["type"]
@@ -38,11 +38,11 @@ global.netEvent.on('/dev/search/answer', function (mes) {
   )
   switch (mes["type"]) {
     case "metio":
-      global.deviceList[mes["ip"]] = new Metio(mes["ip"])
+      g.deviceList[mes["ip"]] = new Metio(mes["ip"])
       // client.subscribe('/dev/search/answer')
       break;
     case "olen":
-      global.deviceList[mes["ip"]] = new Olen(mes["ip"])
+      g.deviceList[mes["ip"]] = new Olen(mes["ip"])
       // client.subscribe('/dev/search/answer')
       break;
   

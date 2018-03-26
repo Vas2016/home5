@@ -1,0 +1,15 @@
+{
+    "name": "Home5",
+    "mac":"dc:44:6d:7d:34:c2",
+    "devices": [
+        {
+            "ip": "192.168.0.39",
+            "name": "metio",
+            "value": [
+                "temp",
+                "humid"
+            ]
+        }
+    ],
+    "interval": 480
+}
