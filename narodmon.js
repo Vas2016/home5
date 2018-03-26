@@ -13,35 +13,40 @@ function sendData() {
         }
         else {
             config = JSON.parse(data)
-
+            var qwerty = false
             var sd = '#' + config["mac"] + '#' + config["name"] + '\n'
             config["devices"].forEach(el => {
-                var v = g.deviceList[el.ip].value()
-                el.forEach(fut => {
-                    // sd.append('')
-                    sd += '#'
-                    sd += el.name
-                    sd += '-'
-                    sd += fut
-                    sd += '#'
-                    sd += v[fut]
-                    sd += '\n'
-                })
+                if (g.deviceList[el.ip] != null) {
+                    qwerty = true
+                    var v = g.deviceList[el.ip].value()
+                    el.forEach(fut => {
+                        // sd.append('')
+                        sd += '#'
+                        sd += el.name
+                        sd += '-'
+                        sd += fut
+                        sd += '#'
+                        sd += v[fut]
+                        sd += '\n'
+                    })
+                }
             });
             sd += '##'
-            console.log('[narodmon] ', sd)
-            var client = new net.Socket();
-            client.connect(1337, '127.0.0.1', function () {
-                console.log('Connected');
-                client.write(sd);
-            });
-            client.on('data', function (data) {
-                console.log('Received: ' + data);
-                client.destroy(); // kill client after server's response
-            });
-            client.on('close', function () {
-                console.log('Connection closed');
-            });
+            if (qwerty == true) {
+                console.log('[narodmon] ', sd)
+                var client = new net.Socket()
+                client.connect(1337, 'narodmon.ru', function () {
+                    console.log('[narodmon] Connected')
+                    client.write(sd)
+                });
+                client.on('data', function (data) {
+                    console.log('Received: ' + data)
+                    client.destroy()
+                });
+                client.on('close', function () {
+                    console.log('Connection closed')
+                })
+            }
         }
     })
 }
