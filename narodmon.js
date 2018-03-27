@@ -1,13 +1,14 @@
 var fs = require('fs')
-var net = require('net');
+var net = require('net')
+var path = require('path')
 var g = require('./g.js')
-var config = JSON.parse(fs.readFileSync('./config/narodmon.c.json'))
+var config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config/narodmon.c.json')))
 console.log('[narodmon] config', config)
 
 function sendData() {
     // config = JSON.parse(fs.readFileSync('./config/narodmon.c.json'))
     console.log('[narodmon]', 'send data')
-    fs.readFile('./config/narodmon.c.json', function (err, data) {
+    fs.readFile(path.join(__dirname, 'config/narodmon.c.json'), function (err, data) {
         if (err) {
             console.error('[narodmon] err', err)
         }
