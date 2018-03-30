@@ -8,9 +8,9 @@ console.log('[narodmon] config', config)
 function sendData() {
     // config = JSON.parse(fs.readFileSync('./config/narodmon.c.json'))
     console.log('[narodmon]', 'send data')
-    fs.readFile(path.join(__dirname, 'config/narodmon.c.json'), function (err, data) {
-        if (err) {
-            console.error('[narodmon] err', err)
+    fs.readFile(path.join(__dirname, 'config/narodmon.c.json'), function (err1, data) {
+        if (err1) {
+            console.error('[narodmon] err', err1)
         }
         else {
             config = JSON.parse(data)
@@ -39,14 +39,17 @@ function sendData() {
             if (qwerty == true) {
                 console.log('[narodmon] ', sd)
                 var client = new net.Socket()
+                client.on('error', function (err2) {
+                    console.log(err2)
+                })
                 client.connect(8283, 'narodmon.ru', function () {
                     console.log('[narodmon] Connected')
                     client.write(sd)
-                });
+                })
                 client.on('data', function (data) {
                     console.log('Received: ' + data)
                     client.destroy()
-                });
+                })
                 client.on('close', function () {
                     console.log('Connection closed')
                 })
