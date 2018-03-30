@@ -1,8 +1,8 @@
 var g = require('./g.js');
 
 var mqtt = require('mqtt')
-g.client = mqtt.connect('mqtt://192.168.0.31')
-
+g.client = mqtt.connect('mqtt://localhost')
+var smn = require('./searchModulesNet.js')
 /*
   Поиск - /dev/search/req
   Ответ - /dev/search/answer
@@ -12,7 +12,11 @@ g.client = mqtt.connect('mqtt://192.168.0.31')
 
 g.client.on('connect', function () {
   g.client.subscribe('/dev/search/answer')
-  g.client.publish('/dev/search/req', '{"ip":"192.168.0.31", "version":"5"}')
+  g.client.publish('/dev/search/req', '{"ip":"' + g.ip + '", "version":"5"}')
+  smn.searchModulesNet(g.ip)
+})
+g.webEvent.on('search', function () {
+  smn.searchModulesNet(g.ip)
 })
 
 g.client.on('message', function (topic, message) {
@@ -30,10 +34,10 @@ var Monitor = require('./devices/Monitor.js').Monitor;
 
 g.netEvent.on('/dev/search/answer', function (mes) {
   mes = JSON.parse(mes)
-  console.log("[home5][answer]", 
-   mes["type"]
+  console.log("[home5][answer]",
+    mes["type"]
   )
-  console.log("[home5][answer]", 
+  console.log("[home5][answer]",
     mes["ip"]
   )
   switch (mes["type"]) {
@@ -49,7 +53,7 @@ g.netEvent.on('/dev/search/answer', function (mes) {
       g.deviceList[mes["ip"]] = new Monitor(mes["ip"])
       // client.subscribe('/dev/search/answer')
       break;
-  
+
     default:
       break;
   }
