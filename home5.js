@@ -40,22 +40,24 @@ g.netEvent.on('/dev/search/answer', function (mes) {
   console.log("[home5][answer]",
     mes["ip"]
   )
-  switch (mes["type"]) {
-    case "metio":
-      g.deviceList[mes["ip"]] = new Metio(mes["ip"])
-      // client.subscribe('/dev/search/answer')
-      break;
-    case "olen":
-      g.deviceList[mes["ip"]] = new Olen(mes["ip"])
-      // client.subscribe('/dev/search/answer')
-      break;
-    case "monitor":
-      g.deviceList[mes["ip"]] = new Monitor(mes["ip"])
-      // client.subscribe('/dev/search/answer')
-      break;
+  if (g.deviceList[mes["ip"]] == null) {
+    switch (mes["type"]) {
+      case "metio":
+        g.deviceList[mes["ip"]] = new Metio(mes["ip"])
+        // client.subscribe('/dev/search/answer')
+        break;
+      case "olen":
+        g.deviceList[mes["ip"]] = new Olen(mes["ip"])
+        // client.subscribe('/dev/search/answer')
+        break;
+      case "monitor":
+        g.deviceList[mes["ip"]] = new Monitor(mes["ip"])
+        // client.subscribe('/dev/search/answer')
+        break;
 
-    default:
-      break;
+      default:
+        break;
+    }
   }
 
 })
