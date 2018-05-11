@@ -46,6 +46,7 @@ app.get('/allDevice', function (req, res) {
   var ans = {}
   ans.count = length(g.deviceList)
   ans.deviceList = g.deviceList
+  res.send(JSON.stringify(ans))
 })
 
 
