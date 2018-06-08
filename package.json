@@ -20,18 +20,19 @@
   },
   "homepage": "https://github.com/Vas2016/home5#readme",
   "dependencies": {
+    "@material-ui/core": "^1.2.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "eslint": "^4.18.1",
     "express": "^4.16.2",
-    "material-ui": "^1.0.0-beta.35",
+    "material-ui": "^1.0.0-beta.47",
     "material-ui-icons": "^1.0.0-beta.35",
     "mqtt": "^2.16.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "socket.io": "^2.0.4",
-    "socket.io-client": "^2.0.4",
+    "socket.io-client": "^2.1.1",
     "webpack": "^3.11.0"
   },
   "devDependencies": {

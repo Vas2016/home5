@@ -5,31 +5,30 @@ class Monitor extends Device {
     constructor(_ip){
         super()
         this.ip = _ip
+        this.type = "Monitor"
         console.log(this.ip)
         g.client.subscribe("/dev/" + this.ip + "/value")
         var t = this
-        function fun(params) {
-            t.valueHandle(params)
-        }
-        function fun2(params) {
-            t.webHandle(params)
-        }
-        g.netEvent.on("/dev/" + this.ip + "/value", fun)
-        g.webEvent.on("/web/" + this.ip, fun2)
+        g.netEvent.on("/dev/" + this.ip + "/value", (params)=>{t.valueHandle(params)})
+        g.webEvent.on("/web/" + this.ip, (params)=>{t.webHandle(params)})
+        this.data = {}
+        this.data.ip = this.ip
+        this.data.type = this.type
         // g.netEvent.on("/dev/" + ip + "/value", value)
     }
     valueHandle(msg) {
         msg = JSON.parse(msg)
-        this.temp = msg["temp"]
-        this.humid = msg["humid"]
-        this.press = msg["press"]
+        this.data.temp = msg["temp"]
+        this.data.humid = msg["humid"]
+        this.data.press = msg["press"]
+        g.webEvent.emit("/web/value", this.data)
         console.log("[DEVICE]", this)
     }
     webHandle(){
 
     }
     value (){    
-        return { temp:this.temp, humid:this.humid,  press:this.press}
+        return data
     }
     setValue (){    
         return { temp:this.temp, humid:this.humid,  press:this.press }

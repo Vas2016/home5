@@ -12,8 +12,14 @@ console.log(__dirname)
 
 io.on('connection', function (socket) {
   // socket.emit('news', { hello: 'world' });
+  socket.on('getList', function (data) {
+    const list = g.deviceList.map(el => {
+      return el.data
+    }); 
+    socket.emit('list', { list:  list});
+  });
   socket.on('data', function (data) {
-    data = JSON.parse(data)
+    // data = JSON.parse(data)
     switch (data.mesType) {
       case 'getValue':
         socket.emit(data.ip, g.deviceList[data.ip].value())
@@ -27,6 +33,10 @@ io.on('connection', function (socket) {
     }
   });
 });
+
+g.webEvent.on('/dev/value', (d)=>{
+  io.local.emit(d.ip, d)
+})
 // const io = require('socket.io')(app, {
 //   path: '/test',
 //   serveClient: false,
@@ -37,6 +47,7 @@ io.on('connection', function (socket) {
 // });
 
 app.use('/', express.static(path.join(__dirname, 'public')))
+
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'public/index.html'))
@@ -56,7 +67,4 @@ app.get('/allDevice', function (req, res) {
 
 server.listen(8080, function () {
   console.log('Example app listening on port 8080!')
-})
-server.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
 })

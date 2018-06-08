@@ -1,7 +1,7 @@
 var g = require('./g.js');
 
 var mqtt = require('mqtt')
-g.client = mqtt.connect('mqtt://localhost')
+g.client = mqtt.connect('mqtt://' + g.ip)
 var smn = require('./searchModulesNet.js')
 /*
   Поиск - /dev/search/req
