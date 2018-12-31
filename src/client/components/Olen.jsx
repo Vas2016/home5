@@ -10,6 +10,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Paper from '@material-ui/core/Paper';
+
 // import io from 'socket.io-client';
 // import {  } from "socket.io-client/io";
 // const socket = openSocket('http://localhost:8000');
@@ -25,12 +27,18 @@ const socket = openSocket();
 const styles = {
   card: {
     maxWidth: 275,
+    
     margin: '20px 20px 20px 20px',
+    
+  },
+  pc: {
+    background: "linear-gradient(45deg, rgb(139, 195, 74) 30%, rgb(205, 220, 57) 90%);",
+    padding:'8px'
   }
   
 };
 
-class Monitor extends Component {
+class Olen extends Component {
   
   constructor(props){
     super(props)
@@ -38,11 +46,12 @@ class Monitor extends Component {
     this.state = {
       temp:0,
       humid:0,
-      press:0,
+      pochva:0,
+      light:0,
       ip:d.ip,
       type:d.type
     } 
-    socket.on(this.state.ip, (q) => {console.log(q);this.setState(q)})
+    socket.on(this.state.ip, (q) => {console.log("Hello",q);this.setState(q)})
     // socket.on
     this.getData()
     // setInterval(()=>{this.getData()}, 2000)
@@ -56,9 +65,10 @@ class Monitor extends Component {
     
     socket.emit('data',{mesType:'getValue',ip:this.state.ip})
   }
-  // onButton() {
-  //   socket.emit("data", "1234");
-  // }
+  polive() {
+    console.log('polive')
+    socket.emit("action", {action: "/web/" + this.state.ip + "/polive", params:{}});
+  }
   // onSwitch() {
 
   // }
@@ -69,12 +79,14 @@ class Monitor extends Component {
       // <div>
       <Card className={this.props.classes.card}>
         <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
-            Monitor
-          </Typography>
-          <Typography gutterBottom variant="subheading" component="h3">
-            {this.state.ip}
-          </Typography>
+          <Paper className={this.props.classes.pc} elevation={1}>
+            <Typography style={{color:'#fff'}} gutterBottom variant="headline" component="h2">
+              Olen
+            </Typography>
+            <Typography style={{color:'#fff'}} gutterBottom variant="subheading" component="h3">
+              {this.state.ip}
+            </Typography>
+          </Paper>
           <List>
             <ListItem>
               <ListItemIcon>
@@ -90,13 +102,20 @@ class Monitor extends Component {
               <ListItemText primary={this.state.humid + ' %'} secondary="Влажность" />
             </ListItem>
             <ListItem>
-              <ListItemIcon>
-                <img src="icons/press.png"/>
-              </ListItemIcon>
-              <ListItemText primary={this.state.press + ' мм р.ст.'} secondary="Давление" />
+              {/* <img src="icons/press.png"/> */}
+              <ListItemText primary={this.state.pochva + ' '} secondary="pochva" />
+            </ListItem>
+            <ListItem>
+              {/* <img src="icons/press.png"/> */}
+              <ListItemText primary={this.state.light + ' '} secondary="light" />
+            </ListItem>
+            <ListItem>
+            <Button variant="contained" color="primary" onClick={this.polive.bind(this)}>
+              Polive
+            </Button>
             </ListItem>
           </List>
-
+          
         </CardContent>
 
       </Card>
@@ -111,9 +130,9 @@ class Monitor extends Component {
   }
 }
 
-Monitor.propTypes = {
+Olen.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Monitor);
-// export default Monitor;
+export default withStyles(styles)(Olen);
+// export default Olen;

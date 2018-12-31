@@ -5,7 +5,7 @@ var g = require('./g.js')
 var ips = require('./utils/getLocalIP.js').getIP()
 console.log(ips)
 g.ip = ips[0]["ip"]
-g.ip = '192.168.0.31'
+g.ip = '192.168.0.113'
 // console.log(require('./utils/getCPU.js').getCPUs())
 require('./server.js')
 require('./home5.js')

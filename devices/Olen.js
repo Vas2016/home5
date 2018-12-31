@@ -5,6 +5,7 @@ class Olen extends Device {
     constructor(_ip){
         super()
         this.ip = _ip
+        this.type = "Olen"
         console.log(this.ip)
         g.client.subscribe("/dev/" + this.ip + "/value")
         var t = this;
@@ -12,22 +13,30 @@ class Olen extends Device {
             t.valueHandle(params)
         }
         g.netEvent.on("/dev/" + this.ip + "/value", fun)
-
+        function fun2(params) {
+            t.polive()
+        }
+        g.webEvent.on("/web/" + this.ip + "/polive", fun2)
+        this.data = {}
+        this.data.ip = this.ip
+        this.data.type = this.type
         // g.netEvent.on("/dev/" + ip + "/value", value)
     }
     valueHandle(msg) {
         msg = JSON.parse(msg)
-        this.temp = msg["temp"]
-        this.humid = msg["humid"]
-        this.light = msg["light"]
-        this.pochva = msg["pochva"]
+        this.data.temp = msg["temp"]
+        this.data.humid = msg["humid"]
+        this.data.light = msg["light"]
+        this.data.pochva = msg["pochva"]
+        g.webEvent.emit("/web/value", this.data)
         console.log("[DEVICE]", this)
     }
     value (){    
-        return { temp:this.temp, humid:this.humid, light:this.light, pochva:this.pochva }
+        return this.data
     }
     polive(){
-        g.client.publish("/dev/" + this.ip + "/value", '{"polive" : true}')
+        console.log('polive');
+        g.client.publish("/dev/" + this.ip + "/polive", '{"polive" : true}')
     }
 }
 

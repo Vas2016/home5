@@ -13,10 +13,23 @@ console.log(__dirname)
 io.on('connection', function (socket) {
   // socket.emit('news', { hello: 'world' });
   socket.on('getList', function (data) {
-    const list = g.deviceList.map(el => {
-      return el.data
-    }); 
-    socket.emit('list', { list:  list});
+    var list = []
+    console.log(g.deviceList)
+    // t.forEach(element => {
+      
+    // });
+    for (var key in g.deviceList) {
+      
+        var element = g.deviceList[key];
+        list.push(element.data)
+        //console.log(element.data)
+      
+    }
+    console.log(list)
+    socket.emit('list', list);
+  });
+  socket.on('action', function (data) {
+    g.webEvent.emit(data.action, data.params)
   });
   socket.on('data', function (data) {
     // data = JSON.parse(data)
@@ -34,7 +47,7 @@ io.on('connection', function (socket) {
   });
 });
 
-g.webEvent.on('/dev/value', (d)=>{
+g.webEvent.on('/web/value', (d)=>{
   io.local.emit(d.ip, d)
 })
 // const io = require('socket.io')(app, {

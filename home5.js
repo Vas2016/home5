@@ -16,7 +16,10 @@ g.client.on('connect', function () {
   smn.searchModulesNet(g.ip)
 })
 g.webEvent.on('search', function () {
+  g.client.subscribe('/dev/search/answer')
+  
   smn.searchModulesNet(g.ip)
+  g.client.publish('/dev/search/req', '{"ip":"' + g.ip + '", "version":"5"}')
 })
 
 g.client.on('message', function (topic, message) {

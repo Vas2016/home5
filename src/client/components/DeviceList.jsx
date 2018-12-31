@@ -2,16 +2,25 @@ import React, { Component } from 'react';
 // import Metio from './Metio';
 // import Monitor from './Monitor.jsx'
 import Device from './Device.jsx';
+
+const styles = {
+    con: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+      alignItems: 'flex-start'
+    }
+    
+  };
+
 export default function DeviceList({devices}) {
     var devicelist = devices.map(function (el) {
         return (
-            <div key={el.ip}>
                     <Device device={el}/>
-            </div>
         )
     })
     return (
-        <div>
+        <div style= {styles.con}>
             {devicelist}
         </div>
     )

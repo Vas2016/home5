@@ -28,10 +28,10 @@ class Monitor extends Device {
 
     }
     value (){    
-        return data
+        return this.data
     }
-    setValue (){    
-        return { temp:this.temp, humid:this.humid,  press:this.press }
+    setValue (d){    
+        // return { temp:this.data.temp, humid:this.data.humid,  press:this.data.press }
     }
 }
 

@@ -10,6 +10,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Avatar from '@material-ui/core/Avatar';
 // import io from 'socket.io-client';
 // import {  } from "socket.io-client/io";
 // const socket = openSocket('http://localhost:8000');
@@ -22,6 +23,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import openSocket from 'socket.io-client';
 const socket = openSocket();
 
+
 const styles = {
   card: {
     maxWidth: 275,
@@ -30,7 +32,7 @@ const styles = {
   
 };
 
-class Monitor extends Component {
+class Metio extends Component {
   
   constructor(props){
     super(props)
@@ -38,7 +40,6 @@ class Monitor extends Component {
     this.state = {
       temp:0,
       humid:0,
-      press:0,
       ip:d.ip,
       type:d.type
     } 
@@ -70,30 +71,19 @@ class Monitor extends Component {
       <Card className={this.props.classes.card}>
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
-            Monitor
+            Metio
           </Typography>
           <Typography gutterBottom variant="subheading" component="h3">
             {this.state.ip}
           </Typography>
           <List>
             <ListItem>
-              <ListItemIcon>
-                <img src="icons/temp.png"/>
-              </ListItemIcon>
-              
+              <img src="icons/temp.png"/>
               <ListItemText primary={this.state.temp + ' °C'} secondary="Температура" />
             </ListItem>
             <ListItem>
-              <ListItemIcon>
-                <img src="icons/humid.png"/>
-              </ListItemIcon>
+              <img src="icons/humid.png"/>
               <ListItemText primary={this.state.humid + ' %'} secondary="Влажность" />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <img src="icons/press.png"/>
-              </ListItemIcon>
-              <ListItemText primary={this.state.press + ' мм р.ст.'} secondary="Давление" />
             </ListItem>
           </List>
 
@@ -111,9 +101,9 @@ class Monitor extends Component {
   }
 }
 
-Monitor.propTypes = {
+Metio.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Monitor);
-// export default Monitor;
+export default withStyles(styles)(Metio);
+// export default Metio;
