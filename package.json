@@ -5,9 +5,9 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node app.js",
+    "start": "node app.js",
     "build": "webpack -p",
-    "br": "webpack -p && babel-node app.js"
+    "br": "webpack -p && node app.js"
   },
   "repository": {
     "type": "git",
@@ -23,31 +23,25 @@
     "@material-ui/core": "^1.5.1",
     "@material-ui/icons": "^3.0.1",
     "@material-ui/styles": "^3.0.0-alpha.6",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "eslint": "^4.18.1",
-    "express": "^4.16.2",
+    "express": "^4.16.4",
     "material-ui": "^1.0.0-beta.47",
-    "material-ui-icons": "^1.0.0-beta.35",
-    "mqtt": "^2.16.0",
+    "material-ui-icons": "^1.0.0-beta.36",
+    "mqtt": "^2.18.8",
+    "randomatic": "^3.1.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
-    "socket.io": "^2.0.4",
+    "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
-    "webpack": "^3.11.0"
+    "webpack": "^3.12.0"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.18",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-node": "^6.0.0",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1",
+    "clean-webpack-plugin": "^0.1.19",
     "extract-text-webpack-plugin": "^3.0.2"
   },
   "babel": {
