@@ -30,6 +30,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AppSettings from './AppSettings.jsx'
+import NarodmonSettings from './NarodmonSettings.jsx'
+
 const theme = createMuiTheme({
   palette: {
     primary: lightGreen,
@@ -65,22 +67,57 @@ function Transition(props) {
 
 
 class SettingsDialog extends React.Component {
-  state = {
-    checked:[]
+  constructor(params) {
+    super(params)
+    this.state = {
+      devices: [],
+      checked:[]
+    }
+    socket.on('list', (list) => {
+      //this.setState({devices:list, open:false});
+      this.state.devices = list
+      this.setState(this.state);
+      console.log(list)
+    })
+    socket.emit('getList', {})
+    socket.on('config_narodmon', (data) => {
+      //this.setState({devices:list, open:false});
+      // this.state.devices 
+       
+      this.setState({narodmonConfig:data.config});
+      console.log(list)
+    })
+    socket.on('config_appSettings', (data) => {
+      //this.setState({devices:list, open:false});
+      // this.state.devices 
+       
+      this.setState({checked:data.config.modules});
+      console.log(list)
+    })
+    socket.emit('getConfig', {name:'narodmon'})
+    socket.emit('getConfig', {name:'appSettings'})
   }
   handleClose = () => {
-    this.props.onClose(this.props.selectedValue);
+    this.props.onClose();
   };
   updateData = (ch) => {
     // console.log(ch)
-    this.setState({checked:ch})
+    this.setState({ checked: ch })
     // console.log(ch)
     //setTimeout(() => {console.log('ch', ch)}, 100)
-  } 
+  }
+  updateNarodmonSettings = (con) => {
+    this.setState({ narodmonConfig: con })
+  }
+  onSave = () => {
+    socket.emit('setConfig', {name:'narodmon', config:this.state.narodmonConfig})
+    socket.emit('setConfig', {name:'appsettings', config:{modules:this.state.checked}})
+    this.handleClose()
+  }
 
   render() {
     const { classes, onClose, ...other } = this.props;
-
+    
     return (
       // <Dialog onClose={this.handleClose} aria-labelledby="simple-dialog-title" {...other}>
       //   <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
@@ -107,7 +144,7 @@ class SettingsDialog extends React.Component {
             <Typography color="inherit" variant="subheading" component="h6" className={classes.flex}>
               Settings
               </Typography>
-            <Button color="inherit" onClick={this.handleClose}>
+            <Button color="inherit" onClick={this.onSave}>
               save
               </Button>
           </Toolbar>
@@ -115,21 +152,22 @@ class SettingsDialog extends React.Component {
         <div className={classes.rr}>
           <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Expansion Panel 1</Typography>
+              <Typography className={classes.heading}>App Settings</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <AppSettings updateData={this.updateData} checked={this.state.checked}/>
+              <AppSettings updateData={this.updateData} checked={this.state.checked} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Expansion Panel 2</Typography>
+              <Typography className={classes.heading}>Narodmon Settings</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                sit amet blandit leo lobortis eget.
-          </Typography>
+              {/* <NarodmonSettings 
+                updateNarodmonConfig={this.updateNarodmonConfig} 
+                config={this.state.narodmonConfig} 
+                deviceList={this.state.deviceList}
+                /> */}
             </ExpansionPanelDetails>
           </ExpansionPanel>
           <ExpansionPanel>
@@ -138,17 +176,8 @@ class SettingsDialog extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                sit amet blandit leo lobortis eget.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                sit amet blandit leo lobortis eget.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                sit amet blandit leo lobortis eget.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                sit amet blandit leo lobortis eget.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                sit amet blandit leo lobortis eget.
-          </Typography>
+                
+              </Typography>
             </ExpansionPanelDetails>
 
           </ExpansionPanel>
@@ -183,6 +212,15 @@ class App extends Component {
   search = () => {
     console.log('search')
     socket.emit("action", { action: "search", params: {} });
+    setTimeout(() => {
+      socket.on('list', (list) => {
+        //this.setState({devices:list, open:false});
+        this.state.devices = list
+        this.setState(this.state);
+        console.log(list)
+      })
+      socket.emit('getList', {})
+    }, 500)
   }
 
 

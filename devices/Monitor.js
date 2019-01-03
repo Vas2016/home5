@@ -18,9 +18,9 @@ class Monitor extends Device {
     }
     valueHandle(msg) {
         msg = JSON.parse(msg)
-        this.data.temp = msg["temp"]
-        this.data.humid = msg["humid"]
-        this.data.press = msg["press"]
+        this.data.temp = parseFloat(msg["temp"])
+        this.data.humid = parseFloat(msg["humid"])
+        this.data.press = parseFloat(msg["press"])
         g.webEvent.emit("/web/value", this.data)
         console.log("[DEVICE]", this)
     }
