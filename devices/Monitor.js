@@ -14,6 +14,7 @@ class Monitor extends Device {
         this.data = {}
         this.data.ip = this.ip
         this.data.type = this.type
+        this.sig = ['temp', 'humid', 'press']
         // g.netEvent.on("/dev/" + ip + "/value", value)
     }
     valueHandle(msg) {

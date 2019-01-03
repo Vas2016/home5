@@ -73,13 +73,13 @@ class SettingsDialog extends React.Component {
       devices: [],
       checked:[]
     }
-    socket.on('list', (list) => {
+    socket.on('sigList', (list) => {
       //this.setState({devices:list, open:false});
       this.state.devices = list
       this.setState(this.state);
       console.log(list)
     })
-    socket.emit('getList', {})
+    socket.emit('getSigList', {})
     socket.on('config_narodmon', (data) => {
       //this.setState({devices:list, open:false});
       // this.state.devices 
@@ -158,18 +158,12 @@ class SettingsDialog extends React.Component {
               <AppSettings updateData={this.updateData} checked={this.state.checked} />
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Narodmon Settings</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              {/* <NarodmonSettings 
+          <NarodmonSettings 
                 updateNarodmonConfig={this.updateNarodmonConfig} 
                 config={this.state.narodmonConfig} 
-                deviceList={this.state.deviceList}
-                /> */}
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+                deviceList={this.state.devices}
+                /> 
+          
           <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               <Typography className={classes.heading}>Disabled Expansion Panel</Typography>

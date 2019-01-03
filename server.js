@@ -31,6 +31,22 @@ io.on('connection', function (socket) {
   socket.on('action', function (data) {
     g.webEvent.emit(data.action, data.params)
   });
+  socket.on('getSigList', function (data) {
+    var list = []
+    console.log(g.deviceList)
+    // t.forEach(element => {
+      
+    // });
+    for (var key in g.deviceList) {
+      
+        var element = g.deviceList[key];
+        list.push({ip:element.data.ip, sig:element.sig})
+        //console.log(element.data)
+      
+    }
+    console.log(list)
+    socket.emit('sigList', list);
+  });
   socket.on('data', function (data) {
     // data = JSON.parse(data)
     switch (data.mesType) {
