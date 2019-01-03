@@ -7,6 +7,8 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import NarodmonDeviceSettings from './NarodmonDeviceSettings.jsx'
 import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 const styles = theme => ({
     root: {
         width: '100%',
@@ -57,16 +59,33 @@ class SwitchListSecondary extends React.Component {
     //     // this.props.updateData(this.state.checked)
     // };
     updateDeviceConfig = (d) => {
-        this.state.config[d.ip] = d.checked
+        // this.state.config[d.ip].values = d.checked
+        this.state.config.devices.find((element, index, array)=>{
+            if (element.ip == d.ip){
+                return true;
+            }
+        }).value = d.checked
+        console.log(this.state.config.devices)
+        this.props.updateNarodmonConfig(this.state.config)
+        this.setState({config:this.state.config})
+        
     }
 
     render() {
         const { classes } = this.props;
+        /*this.state.config[el.ip]*/
+        console.log(this.state)
         var devices_con = this.props.deviceList.map((el) => {
+            // console.log('dev', el)
             return (
-                <Paper>
-                    <NarodmonDeviceSettings device={el} checked={this.state.config[el.ip]} updateData={this.updateDeviceConfig} />
-                </Paper>
+                
+                <Card>
+                    <NarodmonDeviceSettings device={el} checked={this.state.config.devices.find((element, index, array)=>{
+                        if (element.ip == el.ip){
+                            return true;
+                        }
+                    }).value} updateData={this.updateDeviceConfig} />
+                </Card>
             )
         })
         return (

@@ -83,7 +83,8 @@ class SettingsDialog extends React.Component {
     socket.on('config_narodmon', (data) => {
       //this.setState({devices:list, open:false});
       // this.state.devices 
-       
+      this.state.narodmonConfig = data.config
+      console.log('nc', this.state.narodmonConfig)
       this.setState({narodmonConfig:data.config});
       console.log(list)
     })
@@ -106,13 +107,17 @@ class SettingsDialog extends React.Component {
     // console.log(ch)
     //setTimeout(() => {console.log('ch', ch)}, 100)
   }
-  updateNarodmonSettings = (con) => {
+  updateNarodmonConfig = (con) => {
+    this.state.narodmonConfig = con
+    console.log(this.state.narodmonConfig)
     this.setState({ narodmonConfig: con })
   }
   onSave = () => {
+    console.log('save')
+    
     socket.emit('setConfig', {name:'narodmon', config:this.state.narodmonConfig})
-    socket.emit('setConfig', {name:'appsettings', config:{modules:this.state.checked}})
-    this.handleClose()
+    // socket.emit('setConfig', {name:'appsettings', config:{modules:this.state.checked}})
+    // this.handleClose()setConfig
   }
 
   render() {

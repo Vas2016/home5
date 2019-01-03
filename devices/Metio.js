@@ -14,6 +14,7 @@ class Metio extends Device {
         this.data = {}
         this.data.ip = this.ip
         this.data.type = this.type
+        this.sig = ['temp', 'humid']
         // g.netEvent.on("/dev/" + ip + "/value", value)
     }
     valueHandle(msg) {

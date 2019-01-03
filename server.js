@@ -7,6 +7,8 @@ var app = express();
 var server = require('http').createServer(app);  
 var io = require('socket.io')(server);
 var g = require('./g.js')
+var fs = require('fs')
+var narodmonConfig = JSON.parse(fs.readFileSync(path.join(__dirname, 'config/narodmon.c.json')))
 
 console.log(__dirname)
 
@@ -30,6 +32,22 @@ io.on('connection', function (socket) {
   });
   socket.on('action', function (data) {
     g.webEvent.emit(data.action, data.params)
+  });
+  socket.on('getConfig', function (data) {
+    if (data.name == 'narodmon'){
+      socket.emit('config_narodmon', {config:narodmonConfig})
+    }
+    
+  });
+  socket.on('setConfig', function (data) {
+    console.log('CONFIGCONFIG!!!!!sfdsafklsdmfklamsdklfamsdklfmkasldfmalksdmfalksdmflkasdm')
+    if (data.name == 'narodmon'){
+      narodmonConfig = data.config
+      fs.writeFile(path.join(__dirname, 'config/narodmon.c.json'), JSON.stringify(narodmonConfig), (err) =>{
+        console.error(err)
+      })
+    }
+    
   });
   socket.on('getSigList', function (data) {
     var list = []

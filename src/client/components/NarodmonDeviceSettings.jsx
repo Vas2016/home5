@@ -8,7 +8,14 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Switch from '@material-ui/core/Switch';
-
+import Typography from '@material-ui/core/Typography';
+const styles = theme => ({
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+    },
+});
 class SwitchListSecondary extends React.Component {
     state = {
         checked: this.props.checked,
@@ -65,7 +72,7 @@ class SwitchListSecondary extends React.Component {
             )
         })
         return (
-            <List subheader={<ListSubheader>this.props.device.ip</ListSubheader>} className={classes.root}>
+            <List subheader={<ListSubheader>{this.props.device.ip}</ListSubheader>} className={classes.root}>
                 {device_switches}
             </List>
         );
