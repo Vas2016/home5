@@ -17,7 +17,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         options: {
-          presets: ['env', 'react']
+          presets: ["es2015", "stage-0", 'react']
         },
         exclude: [/node_modules/, /public/]
       },
@@ -25,7 +25,7 @@ module.exports = {
         test: /\.jsx$/,
         loader: 'babel-loader',
         options: {
-          presets: ['env', 'react']
+          presets: ["es2015", "stage-0", 'react']
         },
         exclude: [/node_modules/, /public/]
       },

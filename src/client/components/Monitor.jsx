@@ -47,7 +47,7 @@ class Monitor extends Component {
     this.getData()
     // setInterval(()=>{this.getData()}, 2000)
   }
-  getData(){
+  getData = () =>{
     // function name(params) {
       
     // }
@@ -67,7 +67,7 @@ class Monitor extends Component {
     return (
       // <MuiThemeProvider theme={theme}>
       // <div>
-      <Card className={this.props.classes.card}>
+      <Card className={this.props.classes.card} elevation={2}>
         <CardContent>
           <Typography gutterBottom variant="headline" component="h2">
             Monitor

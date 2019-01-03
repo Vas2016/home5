@@ -6,6 +6,6 @@ export default function DeviceList({device}) {
     var de = {'Monitor':Monitor, 'Olen':Olen, 'Metio':Metio}
     var D  = de[device.type]
     return (
-        <D device={device}/>
+        <D device={device} />
     )
 };
